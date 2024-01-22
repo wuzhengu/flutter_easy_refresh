@@ -761,7 +761,7 @@ abstract class IndicatorNotifier extends ChangeNotifier {
   /// [result] Result of task completion.
   void _finishTask([IndicatorResult result = IndicatorResult.success]) {
     _result = result;
-    if (!_waitTaskResult && mode == IndicatorMode.processing) {
+    if (!_waitTaskResult && _processing) {
       _setMode(IndicatorMode.processed);
       _processing = false;
     }
