@@ -1,4 +1,4 @@
-part of easy_refresh;
+part of '../../../easy_refresh.dart';
 
 /// Delivery indicator disappear animation duration.
 const kDeliveryDisappearDuration = Duration(milliseconds: 500);
@@ -22,11 +22,11 @@ class _DeliveryIndicator extends StatefulWidget {
   final Color? skyColor;
 
   const _DeliveryIndicator({
-    Key? key,
+    super.key,
     required this.state,
     required this.reverse,
     this.skyColor,
-  }) : super(key: key);
+  });
 
   @override
   State<_DeliveryIndicator> createState() => _DeliveryIndicatorState();

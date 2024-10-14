@@ -1,4 +1,4 @@
-part of easy_refresh;
+part of '../../../../easy_refresh.dart';
 
 /// Classic footer.
 class ClassicFooter extends Footer {
@@ -10,7 +10,11 @@ class ClassicFooter extends Footer {
   final MainAxisAlignment mainAxisAlignment;
 
   /// Background color.
+  /// Ignored if [boxDecoration] is not null.
   final Color? backgroundColor;
+
+  /// Box decoration.
+  final BoxDecoration? boxDecoration;
 
   /// Text on [IndicatorMode.drag].
   final String? dragText;
@@ -92,24 +96,25 @@ class ClassicFooter extends Footer {
 
   const ClassicFooter({
     this.key,
-    double triggerOffset = 70,
-    bool clamping = false,
-    IndicatorPosition position = IndicatorPosition.above,
-    Duration processedDuration = Duration.zero,
-    physics.SpringDescription? spring,
-    SpringBuilder? readySpringBuilder,
-    bool springRebound = true,
-    FrictionFactor? frictionFactor,
-    bool safeArea = true,
-    double? infiniteOffset = 70,
-    bool? hitOver,
-    bool? infiniteHitOver,
-    bool hapticFeedback = false,
-    bool triggerWhenReach = false,
-    bool triggerWhenRelease = false,
-    double maxOverOffset = double.infinity,
+    super.triggerOffset = 70,
+    super.clamping = false,
+    super.position,
+    super.processedDuration = Duration.zero,
+    super.spring,
+    super.readySpringBuilder,
+    super.springRebound,
+    super.frictionFactor,
+    super.safeArea,
+    super.infiniteOffset = 70,
+    super.hitOver,
+    super.infiniteHitOver,
+    super.hapticFeedback,
+    super.triggerWhenReach,
+    super.triggerWhenRelease,
+    super.maxOverOffset,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.backgroundColor,
+    this.boxDecoration,
     this.dragText,
     this.armedText,
     this.readyText,
@@ -135,24 +140,7 @@ class ClassicFooter extends Footer {
     this.iconTheme,
     this.progressIndicatorSize,
     this.progressIndicatorStrokeWidth,
-  }) : super(
-          triggerOffset: triggerOffset,
-          clamping: clamping,
-          processedDuration: processedDuration,
-          spring: spring,
-          readySpringBuilder: readySpringBuilder,
-          springRebound: springRebound,
-          frictionFactor: frictionFactor,
-          safeArea: safeArea,
-          infiniteOffset: infiniteOffset,
-          hitOver: hitOver,
-          infiniteHitOver: infiniteHitOver,
-          position: position,
-          hapticFeedback: hapticFeedback,
-          triggerWhenReach: triggerWhenReach,
-          triggerWhenRelease: triggerWhenRelease,
-          maxOverOffset: maxOverOffset,
-        );
+  });
 
   @override
   Widget build(BuildContext context, IndicatorState state) {
@@ -160,6 +148,7 @@ class ClassicFooter extends Footer {
       key: key,
       state: state,
       backgroundColor: backgroundColor,
+      boxDecoration: boxDecoration,
       mainAxisAlignment: mainAxisAlignment,
       dragText: dragText ?? 'Pull to load',
       armedText: armedText ?? 'Release ready',

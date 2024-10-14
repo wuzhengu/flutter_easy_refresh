@@ -6,7 +6,7 @@ import 'package:easy_refresh/easy_refresh.dart';
 import 'package:get/get.dart';
 
 class ListenerHeaderPage extends StatefulWidget {
-  const ListenerHeaderPage({Key? key}) : super(key: key);
+  const ListenerHeaderPage({super.key});
 
   @override
   State<ListenerHeaderPage> createState() => _ListenerHeaderPageState();
@@ -98,7 +98,7 @@ class _ListenerHeaderPageState extends State<ListenerHeaderPage> {
                       value = math.min(offset / actualTriggerOffset, 1) * 0.75;
                     } else if (mode == IndicatorMode.ready ||
                         mode == IndicatorMode.processing) {
-                      value == null;
+                      value = null;
                     } else {
                       value = 1;
                     }

@@ -7,7 +7,7 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:get/get.dart';
 
 class TabBarViewPage extends StatefulWidget {
-  const TabBarViewPage({Key? key}) : super(key: key);
+  const TabBarViewPage({super.key});
 
   @override
   TabBarViewPageState createState() {
@@ -38,6 +38,7 @@ class TabBarViewPageState extends State<TabBarViewPage>
     final themeData = Theme.of(context);
     return Scaffold(
       body: EasyRefresh.builder(
+        isNested: true,
         header: ClassicHeader(
           clamping: true,
           position: IndicatorPosition.locator,
@@ -190,9 +191,8 @@ class _AutomaticKeepAlive extends StatefulWidget {
   final Widget child;
 
   const _AutomaticKeepAlive({
-    Key? key,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   State<_AutomaticKeepAlive> createState() => _AutomaticKeepAliveState();

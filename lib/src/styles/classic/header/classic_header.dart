@@ -1,4 +1,4 @@
-part of easy_refresh;
+part of '../../../../easy_refresh.dart';
 
 /// Classic header.
 class ClassicHeader extends Header {
@@ -10,7 +10,11 @@ class ClassicHeader extends Header {
   final MainAxisAlignment mainAxisAlignment;
 
   /// Background color.
+  /// Ignored if [boxDecoration] is not null.
   final Color? backgroundColor;
+
+  /// Box decoration.
+  final BoxDecoration? boxDecoration;
 
   /// Text on [IndicatorMode.drag].
   final String? dragText;
@@ -92,24 +96,25 @@ class ClassicHeader extends Header {
 
   const ClassicHeader({
     this.key,
-    double triggerOffset = 70,
-    bool clamping = false,
-    IndicatorPosition position = IndicatorPosition.above,
-    Duration processedDuration = const Duration(seconds: 1),
-    physics.SpringDescription? spring,
-    SpringBuilder? readySpringBuilder,
-    bool springRebound = true,
-    FrictionFactor? frictionFactor,
-    bool safeArea = true,
-    double? infiniteOffset,
-    bool? hitOver,
-    bool? infiniteHitOver,
-    bool hapticFeedback = false,
-    bool triggerWhenReach = false,
-    bool triggerWhenRelease = false,
-    double maxOverOffset = double.infinity,
+    super.triggerOffset = 70,
+    super.clamping = false,
+    super.position,
+    super.processedDuration,
+    super.spring,
+    super.readySpringBuilder,
+    super.springRebound,
+    super.frictionFactor,
+    super.safeArea,
+    super.infiniteOffset,
+    super.hitOver,
+    super.infiniteHitOver,
+    super.hapticFeedback,
+    super.triggerWhenReach,
+    super.triggerWhenRelease,
+    super.maxOverOffset,
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.backgroundColor,
+    this.boxDecoration,
     this.dragText,
     this.armedText,
     this.readyText,
@@ -135,24 +140,7 @@ class ClassicHeader extends Header {
     this.iconTheme,
     this.progressIndicatorSize,
     this.progressIndicatorStrokeWidth,
-  }) : super(
-          triggerOffset: triggerOffset,
-          clamping: clamping,
-          processedDuration: processedDuration,
-          spring: spring,
-          readySpringBuilder: readySpringBuilder,
-          springRebound: springRebound,
-          frictionFactor: frictionFactor,
-          safeArea: safeArea,
-          infiniteOffset: infiniteOffset,
-          hitOver: hitOver,
-          infiniteHitOver: infiniteHitOver,
-          position: position,
-          hapticFeedback: hapticFeedback,
-          triggerWhenReach: triggerWhenReach,
-          triggerWhenRelease: triggerWhenRelease,
-          maxOverOffset: maxOverOffset,
-        );
+  });
 
   @override
   Widget build(BuildContext context, IndicatorState state) {
@@ -160,6 +148,7 @@ class ClassicHeader extends Header {
       key: key,
       state: state,
       backgroundColor: backgroundColor,
+      boxDecoration: boxDecoration,
       mainAxisAlignment: mainAxisAlignment,
       dragText: dragText ?? 'Pull to refresh',
       armedText: armedText ?? 'Release ready',

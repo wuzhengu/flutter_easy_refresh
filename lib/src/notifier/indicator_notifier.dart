@@ -1,6 +1,6 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 
-part of easy_refresh;
+part of '../../easy_refresh.dart';
 
 /// Indicator widget builder.
 typedef CanProcessCallBack = bool Function();
@@ -41,12 +41,14 @@ abstract class IndicatorNotifier extends ChangeNotifier {
     required this.userOffsetNotifier,
     required CanProcessCallBack onCanProcess,
     required bool canProcessAfterNoMore,
+    required bool isNested,
     Axis? triggerAxis,
     bool waitTaskResult = true,
     FutureOr Function()? task,
   })  : _indicator = indicator,
         _onCanProcess = onCanProcess,
         _canProcessAfterNoMore = canProcessAfterNoMore,
+        _isNested = isNested,
         _triggerAxis = triggerAxis,
         _waitTaskResult = waitTaskResult,
         _task = task {
@@ -147,15 +149,22 @@ abstract class IndicatorNotifier extends ChangeNotifier {
   /// The current scroll position.
   ScrollMetrics get position => _position!;
 
+  /// Handling NestedScrollView
+  bool _isNested;
+
+  bool get isNested => _isNested;
+
   set position(ScrollMetrics value) {
-    if (value.isNestedOuter) {
-      _viewportDimension = value.viewportDimension;
-    } else if (value.isNestedInner) {
-      if (_ambiguate(WidgetsBinding.instance)!.schedulerPhase !=
-          SchedulerPhase.persistentCallbacks) {
-        _viewportDimension = value.axis == Axis.vertical
-            ? vsync.context.size?.height
-            : vsync.context.size?.width;
+    if (_isNested) {
+      if (value.isNestedOuter) {
+        _viewportDimension = value.viewportDimension;
+      } else if (value.isNestedInner) {
+        if (WidgetsBinding.instance.schedulerPhase !=
+            SchedulerPhase.persistentCallbacks) {
+          _viewportDimension = value.axis == Axis.vertical
+              ? vsync.context.size?.height
+              : vsync.context.size?.width;
+        }
       }
     } else {
       _viewportDimension = null;
@@ -389,11 +398,18 @@ abstract class IndicatorNotifier extends ChangeNotifier {
     Axis? triggerAxis,
     FutureOr Function()? task,
     bool? waitTaskRefresh,
+    bool? isNested,
   }) {
     if (indicator != null) {
-      _indicator.listenable?._unbind();
-      indicator.listenable?._bind(this);
-      _indicator = indicator;
+      if (indicator.listenable == _indicator.listenable) {
+        indicator.listenable?._rebind(this);
+      } else {
+        _indicator.listenable?._unbind();
+        indicator.listenable?._bind(this);
+      }
+      if (indicator != _indicator) {
+        _indicator = indicator;
+      }
     }
     _canProcessAfterNoMore = canProcessAfterNoMore ?? _canProcessAfterNoMore;
     _triggerAxis = triggerAxis;
@@ -405,6 +421,9 @@ abstract class IndicatorNotifier extends ChangeNotifier {
       _clampingAnimationController?.stop();
       _clampingAnimationController?.dispose();
       _clampingAnimationController = null;
+    }
+    if (isNested != null) {
+      _isNested = isNested;
     }
     notifyListeners();
   }
@@ -542,7 +561,8 @@ abstract class IndicatorNotifier extends ChangeNotifier {
       if (_mode == IndicatorMode.done ||
           // Handling infinite scroll
           (infiniteOffset != null &&
-              (!position.isNestedOuter && edgeOffset < infiniteOffset!) &&
+              (!(_isNested && position.isNestedOuter) &&
+                  edgeOffset < infiniteOffset!) &&
               !bySimulation &&
               !_infiniteExclude(position, value))) {
         // Update mode
@@ -610,7 +630,8 @@ abstract class IndicatorNotifier extends ChangeNotifier {
       }
       // Infinite scroll
       if (infiniteOffset != null &&
-          (!position.isNestedOuter && edgeOffset < infiniteOffset!)) {
+          (!(_isNested && position.isNestedOuter) &&
+              edgeOffset < infiniteOffset!)) {
         if (_mode == IndicatorMode.done &&
             position.maxScrollExtent != position.minScrollExtent) {
           if ((_result == IndicatorResult.fail ||
@@ -817,7 +838,7 @@ abstract class IndicatorNotifier extends ChangeNotifier {
     if (this.mode == IndicatorMode.processed) {
       // Completion delay
       if (processedDuration == Duration.zero) {
-        _ambiguate(WidgetsBinding.instance)!.addPostFrameCallback((timeStamp) {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           if (this.mode == IndicatorMode.processed) {
             _mode = IndicatorMode.done;
             if (offset == 0) {
@@ -932,21 +953,18 @@ class _IndicatorListenable<T extends IndicatorNotifier>
 class HeaderNotifier extends IndicatorNotifier {
   HeaderNotifier({
     required Header header,
-    required ValueNotifier<bool> userOffsetNotifier,
-    required TickerProviderStateMixin vsync,
+    required super.userOffsetNotifier,
+    required super.vsync,
     required CanProcessCallBack onCanRefresh,
-    bool canProcessAfterNoMore = false,
+    super.canProcessAfterNoMore = false,
+    super.isNested = false,
     bool canProcessAfterFail = true,
-    Axis? triggerAxis,
+    super.triggerAxis,
     FutureOr Function()? onRefresh,
     bool waitRefreshResult = true,
   }) : super(
           indicator: header,
-          userOffsetNotifier: userOffsetNotifier,
-          vsync: vsync,
           onCanProcess: onCanRefresh,
-          canProcessAfterNoMore: canProcessAfterNoMore,
-          triggerAxis: triggerAxis,
           task: onRefresh,
           waitTaskResult: waitRefreshResult,
         );
@@ -1003,7 +1021,7 @@ class HeaderNotifier extends IndicatorNotifier {
         velocity: mVelocity,
         leadingExtent: position.minScrollExtent - overExtent,
         trailingExtent: 0,
-        tolerance: _physics.getTolerance(position),
+        tolerance: _physics.toleranceFor(position),
       );
     }
     return null;
@@ -1087,21 +1105,18 @@ class HeaderNotifier extends IndicatorNotifier {
 class FooterNotifier extends IndicatorNotifier {
   FooterNotifier({
     required Footer footer,
-    required ValueNotifier<bool> userOffsetNotifier,
-    required TickerProviderStateMixin vsync,
+    required super.userOffsetNotifier,
+    required super.vsync,
     required CanProcessCallBack onCanLoad,
-    bool canProcessAfterNoMore = false,
+    super.canProcessAfterNoMore = false,
+    super.isNested = false,
     bool canProcessAfterFail = true,
-    Axis? triggerAxis,
+    super.triggerAxis,
     FutureOr Function()? onLoad,
     bool waitLoadResult = true,
   }) : super(
           indicator: footer,
-          userOffsetNotifier: userOffsetNotifier,
-          vsync: vsync,
           onCanProcess: onCanLoad,
-          canProcessAfterNoMore: canProcessAfterNoMore,
-          triggerAxis: triggerAxis,
           task: onLoad,
           waitTaskResult: waitLoadResult,
         );
@@ -1170,7 +1185,7 @@ class FooterNotifier extends IndicatorNotifier {
         velocity: mVelocity,
         leadingExtent: 0,
         trailingExtent: position.maxScrollExtent + overExtent,
-        tolerance: _physics.getTolerance(position),
+        tolerance: _physics.toleranceFor(position),
       );
     }
     return null;

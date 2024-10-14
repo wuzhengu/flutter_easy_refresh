@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:rive/rive.dart';
 
 class SecondaryPage extends StatefulWidget {
-  const SecondaryPage({Key? key}) : super(key: key);
+  const SecondaryPage({super.key});
 
   @override
   State<SecondaryPage> createState() => _SecondaryPageState();
@@ -117,10 +117,10 @@ class _SecondaryPageState extends State<SecondaryPage> {
                         );
                         if (mode == IndicatorMode.secondaryOpen ||
                             mode == IndicatorMode.secondaryClosing) {
-                          return WillPopScope(
-                            onWillPop: () async {
+                          return PopScope(
+                            canPop: false,
+                            onPopInvoked: (_) {
                               _controller.closeHeaderSecondary();
-                              return false;
                             },
                             child: secondaryPage,
                           );

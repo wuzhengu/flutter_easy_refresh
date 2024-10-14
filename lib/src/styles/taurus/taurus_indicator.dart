@@ -1,4 +1,4 @@
-part of easy_refresh;
+part of '../../../easy_refresh.dart';
 
 /// Taurus indicator disappear animation duration.
 const kTaurusDisappearDuration = Duration(milliseconds: 250);
@@ -19,11 +19,11 @@ class _TaurusIndicator extends StatefulWidget {
   final Color? skyColor;
 
   const _TaurusIndicator({
-    Key? key,
+    super.key,
     required this.state,
     required this.reverse,
     this.skyColor,
-  }) : super(key: key);
+  });
 
   @override
   State<_TaurusIndicator> createState() => _TaurusIndicatorState();

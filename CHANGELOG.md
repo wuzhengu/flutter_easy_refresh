@@ -1,3 +1,20 @@
+## Next
+- feat: Added EasyRefresh.isNested parameter to determine whether to handle NestedScrollView. In versions 3.4.0 and earlier, no setting is required.
+- fix: Adjust the Flutter version, Flutter >=3.10.0.
+
+## 3.4.0
+- breaking: Flutter >=3.7.0, dart >=2.19.0. Remove some unnecessary compatibility, please update the Flutter version in time, or use the previous version.
+- fix: Scroll bar adaptation for unknown platforms [#825](https://github.com/xuelongqy/flutter_easy_refresh/issues/825).
+- feat: Add BoxDecoration to ClassicHeader and ClassicFooter, Thanks GiampaoloGabba for [PR#822](https://github.com/xuelongqy/flutter_easy_refresh/pull/822).
+- fix: Compatible with Flutter3.22.0.
+
+## 3.3.5+1
+- fix: Indicator properties cannot be updated [#818](https://github.com/xuelongqy/flutter_easy_refresh/issues/818).
+
+## 3.3.5
+- fix: Material style performance optimization [#814](https://github.com/xuelongqy/flutter_easy_refresh/issues/814).
+- fix: Issue during build when IndicatorStateListenable rebinds IndicatorNotifier [#607](https://github.com/xuelongqy/flutter_easy_refresh/issues/607).
+
 ## 3.3.4
 - fix: EasyPaging.itemBuilder type inference [#762](https://github.com/xuelongqy/flutter_easy_refresh/issues/762).
 - fix: Event notification after dispose [#726](https://github.com/xuelongqy/flutter_easy_refresh/issues/726). 

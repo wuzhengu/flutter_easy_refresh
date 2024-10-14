@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class CryptocurrencyPage extends StatefulWidget {
-  const CryptocurrencyPage({Key? key}) : super(key: key);
+  const CryptocurrencyPage({super.key});
 
   @override
   State<CryptocurrencyPage> createState() => _CryptocurrencyPageState();
@@ -113,7 +113,7 @@ class _CryptocurrencyPageState extends State<CryptocurrencyPage>
             elevation: 0,
             clipBehavior: Clip.hardEdge,
             margin: const EdgeInsets.only(left: 32, right: 32, bottom: 32),
-            color: themeData.colorScheme.surfaceVariant,
+            color: themeData.colorScheme.surfaceContainerHighest,
             child: InkWell(
               onTap: () {
                 Clipboard.setData(ClipboardData(text: info.address));

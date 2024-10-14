@@ -7,7 +7,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key}) : super(key: key);
+  const ChatPage({super.key});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -311,7 +311,8 @@ class _ChatPageState extends State<ChatPage> {
                               borderSide: BorderSide.none,
                             ),
                             filled: true,
-                            fillColor: themeData.colorScheme.surfaceVariant,
+                            fillColor:
+                                themeData.colorScheme.surfaceContainerHighest,
                             prefixIcon: const Icon(Icons.abc),
                             suffixIcon: IconButton(
                               onPressed: () {

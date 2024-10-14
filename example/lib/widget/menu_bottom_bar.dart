@@ -9,12 +9,12 @@ class MenuBottomBar extends StatefulWidget {
   final VoidCallback? onLoad;
 
   const MenuBottomBar({
-    Key? key,
+    super.key,
     this.expandedBody,
     this.expandedHeight,
     this.onRefresh,
     this.onLoad,
-  }) : super(key: key);
+  });
 
   @override
   State<MenuBottomBar> createState() => _MenuBottomBarState();
@@ -53,7 +53,7 @@ class _MenuBottomBarState extends State<MenuBottomBar>
       clipBehavior: Clip.antiAlias,
       elevation: 4,
       margin: EdgeInsets.zero,
-      surfaceTintColor: Theme.of(context).bottomAppBarColor,
+      surfaceTintColor: Theme.of(context).bottomAppBarTheme.color,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
       ),

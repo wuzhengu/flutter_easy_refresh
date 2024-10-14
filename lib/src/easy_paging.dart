@@ -1,4 +1,4 @@
-part of easy_paging;
+part of '../easy_paging.dart';
 
 /// Paging item builder.
 typedef EasyPagingItemBuilder<ItemType> = Widget Function(
@@ -68,7 +68,7 @@ abstract class EasyPaging<DataType, ItemType> extends StatefulWidget {
   final WidgetBuilder? emptyWidgetBuilder;
 
   const EasyPaging({
-    Key? key,
+    super.key,
     this.useDefaultPhysics = false,
     this.controller,
     this.spring,
@@ -87,7 +87,7 @@ abstract class EasyPaging<DataType, ItemType> extends StatefulWidget {
     this.itemBuilder,
     this.refreshOnStartWidgetBuilder,
     this.emptyWidgetBuilder,
-  }) : super(key: key);
+  });
 
   @override
   EasyPagingState<DataType, ItemType> createState();
@@ -142,7 +142,7 @@ abstract class EasyPagingState<DataType, ItemType> extends State<EasyPaging> {
   Future _onRefresh() async {
     final result = await onRefresh();
     if (!_refreshController.controlFinishRefresh && isNoMore) {
-      _ambiguate(WidgetsBinding.instance)!.addPostFrameCallback((timeStamp) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         if (mounted) {
           _refreshController.finishLoad(IndicatorResult.noMore, true);
         }

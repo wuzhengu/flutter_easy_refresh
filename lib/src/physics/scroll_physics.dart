@@ -1,4 +1,4 @@
-part of easy_refresh;
+part of '../../easy_refresh.dart';
 
 /// The multiple applied to overscroll to make it appear that scrolling past
 /// the edge of the scrollable contents is harder than scrolling the list.
@@ -9,15 +9,14 @@ typedef FrictionFactor = double Function(double overscrollFraction);
 /// EasyRefresh scroll physics.
 class _ERScrollPhysics extends BouncingScrollPhysics {
   _ERScrollPhysics({
-    ScrollPhysics? parent = const AlwaysScrollableScrollPhysics(),
+    super.parent = const AlwaysScrollableScrollPhysics(),
     required this.userOffsetNotifier,
     required this.headerNotifier,
     required this.footerNotifier,
     physics.SpringDescription? spring,
     FrictionFactor? frictionFactor,
   })  : _spring = spring,
-        _frictionFactor = frictionFactor,
-        super(parent: parent) {
+        _frictionFactor = frictionFactor {
     headerNotifier._bindPhysics(this);
     footerNotifier._bindPhysics(this);
     _headerSimulationCreationState =
@@ -160,7 +159,7 @@ class _ERScrollPhysics extends BouncingScrollPhysics {
 
     // Scrollable viewport dimension;
     double viewportDimension = position.viewportDimension;
-    if (position.isNestedInner) {
+    if ((headerNotifier.isNested && position.isNestedInner)) {
       if (headerNotifier._viewportDimension != null) {
         viewportDimension = headerNotifier._viewportDimension!;
       } else {
@@ -409,7 +408,8 @@ class _ERScrollPhysics extends BouncingScrollPhysics {
   void _updateIndicatorOffset(
       ScrollMetrics position, double offset, double value) {
     // NestedScrollView special handling.
-    if (position.isNestedOuter &&
+    if (headerNotifier.isNested &&
+        position.isNestedOuter &&
         headerNotifier._offset > 0 &&
         value > position.minScrollExtent &&
         !headerNotifier.modeLocked) {
@@ -421,20 +421,10 @@ class _ERScrollPhysics extends BouncingScrollPhysics {
     footerNotifier._updateOffset(position, hClamping ? 0 : offset, false);
   }
 
-  /// The tolerance to use for ballistic simulations.
-  Tolerance getTolerance(ScrollMetrics metrics) {
-    try {
-      // This feature after v3.7.0-13.0.pre.
-      return (this as dynamic).toleranceFor(metrics);
-    } catch (_) {
-      return this.tolerance;
-    }
-  }
-
   @override
   Simulation? createBallisticSimulation(
       ScrollMetrics position, double velocity) {
-    Tolerance tolerance = getTolerance(position);
+    Tolerance tolerance = toleranceFor(position);
     // User stopped scrolling.
     final oldUserOffset = userOffsetNotifier.value;
     userOffsetNotifier.value = false;

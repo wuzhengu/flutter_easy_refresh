@@ -1,4 +1,4 @@
-part of easy_refresh;
+part of '../../../easy_refresh.dart';
 
 /// Spring used by bezier curves.
 physics.SpringDescription kBezierSpringBuilder({
@@ -60,7 +60,7 @@ class BezierBackground extends StatefulWidget {
   final ValueChanged<double>? onReboundOffsetChanged;
 
   const BezierBackground({
-    Key? key,
+    super.key,
     required this.state,
     required this.reverse,
     this.useAnimation = true,
@@ -70,7 +70,7 @@ class BezierBackground extends StatefulWidget {
     this.disappearAnimation = false,
     this.disappearAnimationDuration = kBezierBackgroundDisappearDuration,
     this.onReboundOffsetChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<BezierBackground> createState() => _BezierBackgroundState();

@@ -1,4 +1,4 @@
-part of easy_refresh;
+part of '../../../../easy_refresh.dart';
 
 /// Bezier circle footer.
 /// https://dribbble.com/shots/1797373-Pull-Down-To-Refresh
@@ -13,34 +13,22 @@ class BezierCircleHeader extends Header {
 
   const BezierCircleHeader({
     this.key,
-    double triggerOffset = 100,
-    bool clamping = false,
-    IndicatorPosition position = IndicatorPosition.above,
-    physics.SpringDescription? spring,
-    SpringBuilder readySpringBuilder = kBezierSpringBuilder,
-    bool springRebound = false,
-    FrictionFactor frictionFactor = kBezierFrictionFactor,
-    bool safeArea = true,
-    double? infiniteOffset,
-    bool? hitOver,
-    bool? infiniteHitOver,
-    bool hapticFeedback = false,
+    super.triggerOffset = 100,
+    super.clamping = false,
+    super.position,
+    super.spring,
+    SpringBuilder super.readySpringBuilder = kBezierSpringBuilder,
+    super.springRebound = false,
+    FrictionFactor super.frictionFactor = kBezierFrictionFactor,
+    super.safeArea,
+    super.infiniteOffset,
+    super.hitOver,
+    super.infiniteHitOver,
+    super.hapticFeedback,
     this.foregroundColor,
     this.backgroundColor,
   }) : super(
-          triggerOffset: triggerOffset,
-          clamping: clamping,
           processedDuration: kBezierCircleDisappearDuration,
-          spring: spring,
-          readySpringBuilder: readySpringBuilder,
-          springRebound: springRebound,
-          frictionFactor: frictionFactor,
-          safeArea: safeArea,
-          infiniteOffset: infiniteOffset,
-          hitOver: hitOver,
-          infiniteHitOver: infiniteHitOver,
-          position: position,
-          hapticFeedback: hapticFeedback,
         );
 
   @override

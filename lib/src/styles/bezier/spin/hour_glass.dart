@@ -1,13 +1,13 @@
-part of easy_refresh;
+part of '../../../../easy_refresh.dart';
 
 /// Code from [https://github.com/jogboms/flutter_spinkit].
 /// flutter_spinkit LICENSE [https://github.com/jogboms/flutter_spinkit/blob/master/LICENSE].
 class _SpinKitHourGlass extends StatefulWidget {
   const _SpinKitHourGlass({
-    Key? key,
+    super.key,
     required this.color,
     this.size = 50.0,
-  }) : super(key: key);
+  });
 
   final Color color;
   final double size;
@@ -47,8 +47,8 @@ class _SpinKitHourGlassState extends State<_SpinKitHourGlass>
         transform: Matrix4.identity()..rotateZ((_animation.value) * math.pi),
         alignment: FractionalOffset.center,
         child: CustomPaint(
-          child: SizedBox.fromSize(size: Size.square(widget.size)),
           painter: _HourGlassPainter(weight: 90, color: widget.color),
+          child: SizedBox.fromSize(size: Size.square(widget.size)),
         ),
       ),
     );

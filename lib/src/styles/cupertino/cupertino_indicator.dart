@@ -1,4 +1,4 @@
-part of easy_refresh;
+part of '../../../easy_refresh.dart';
 
 const double _kDefaultCupertinoIndicatorRadius = 14.0;
 const double _kDefaultWaterDropCupertinoIndicatorRadius = 10.0;
@@ -36,14 +36,14 @@ class _CupertinoIndicator extends StatefulWidget {
   final Widget? emptyWidget;
 
   const _CupertinoIndicator({
-    Key? key,
+    super.key,
     required this.state,
     required this.reverse,
     this.foregroundColor,
     this.userWaterDrop = true,
     this.backgroundColor,
     this.emptyWidget,
-  }) : super(key: key);
+  });
 
   @override
   State<_CupertinoIndicator> createState() => _CupertinoIndicatorState();

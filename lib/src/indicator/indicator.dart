@@ -1,4 +1,4 @@
-part of easy_refresh;
+part of '../../easy_refresh.dart';
 
 /// The default opening speed of the secondary.
 const kDefaultSecondaryVelocity = 3000.0;
@@ -193,6 +193,11 @@ class IndicatorState {
       axisDirection.hashCode ^
       viewportDimension.hashCode ^
       actualTriggerOffset.hashCode;
+
+  @override
+  String toString() {
+    return 'IndicatorState{indicator: $indicator, notifier: $notifier, userOffsetNotifier: $userOffsetNotifier, mode: $mode, result: $result, offset: $offset, safeOffset: $safeOffset, axis: $axis, axisDirection: $axisDirection, viewportDimension: $viewportDimension, actualTriggerOffset: $actualTriggerOffset}';
+  }
 }
 
 /// Indicator widget builder.
@@ -216,7 +221,9 @@ class IndicatorStateListenable extends ValueListenable<IndicatorState?> {
     _indicatorNotifier = indicatorNotifier;
     if (_listeners.isNotEmpty) {
       indicatorNotifier.addListener(_onNotify);
-      Future(_onNotify);
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        _onNotify();
+      });
     }
   }
 
@@ -224,6 +231,15 @@ class IndicatorStateListenable extends ValueListenable<IndicatorState?> {
   void _unbind() {
     _indicatorNotifier?.removeListener(_onNotify);
     _indicatorNotifier = null;
+  }
+
+  /// Rebind [IndicatorNotifier].
+  void _rebind(IndicatorNotifier indicatorNotifier) {
+    if (_indicatorNotifier == indicatorNotifier) {
+      return;
+    }
+    _unbind();
+    _bind(indicatorNotifier);
   }
 
   /// Listen for notifications

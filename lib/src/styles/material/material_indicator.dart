@@ -1,4 +1,4 @@
-part of easy_refresh;
+part of '../../../easy_refresh.dart';
 
 /// See [ProgressIndicator] _kMinCircularProgressIndicatorSize.
 const double _kCircularProgressIndicatorSize = 48;
@@ -72,7 +72,7 @@ class _MaterialIndicator extends StatefulWidget {
   final bool bezierBackgroundBounce;
 
   const _MaterialIndicator({
-    Key? key,
+    super.key,
     required this.state,
     required this.disappearDuration,
     required this.reverse,
@@ -86,7 +86,7 @@ class _MaterialIndicator extends StatefulWidget {
     this.bezierBackgroundColor,
     this.bezierBackgroundAnimation = false,
     this.bezierBackgroundBounce = false,
-  }) : super(key: key);
+  });
 
   @override
   State<_MaterialIndicator> createState() => _MaterialIndicatorState();
@@ -139,6 +139,9 @@ class _MaterialIndicatorState extends State<_MaterialIndicator> {
 
   /// Build [RefreshProgressIndicator].
   Widget _buildIndicator() {
+    if (_offset <= 0) {
+      return const SizedBox();
+    }
     return Container(
       alignment: _axis == Axis.vertical
           ? (widget.reverse ? Alignment.topCenter : Alignment.bottomCenter)

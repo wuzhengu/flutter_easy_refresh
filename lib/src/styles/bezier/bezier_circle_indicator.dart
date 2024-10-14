@@ -1,4 +1,4 @@
-part of easy_refresh;
+part of '../../../easy_refresh.dart';
 
 const _kBallRadius = 16.0;
 
@@ -19,11 +19,11 @@ class _BezierCircleIndicator extends StatefulWidget {
   final Color? backgroundColor;
 
   const _BezierCircleIndicator({
-    Key? key,
+    super.key,
     required this.state,
     this.foregroundColor,
     this.backgroundColor,
-  }) : super(key: key);
+  });
 
   @override
   State<_BezierCircleIndicator> createState() => _BezierCircleIndicatorState();

@@ -1,4 +1,4 @@
-part of easy_refresh;
+part of '../../../easy_refresh.dart';
 
 /// Pull icon widget builder.
 typedef CIPullIconBuilder = Widget Function(
@@ -30,7 +30,11 @@ class _ClassicIndicator extends StatefulWidget {
   final MainAxisAlignment mainAxisAlignment;
 
   /// Background color.
+  /// Ignored if [boxDecoration] is not null.
   final Color? backgroundColor;
+
+  /// Box decoration.
+  final BoxDecoration? boxDecoration;
 
   /// Text on [IndicatorMode.drag].
   final String dragText;
@@ -115,10 +119,11 @@ class _ClassicIndicator extends StatefulWidget {
   final double? progressIndicatorStrokeWidth;
 
   const _ClassicIndicator({
-    Key? key,
+    super.key,
     required this.state,
     required this.mainAxisAlignment,
     this.backgroundColor,
+    this.boxDecoration,
     required this.dragText,
     required this.armedText,
     required this.readyText,
@@ -145,12 +150,11 @@ class _ClassicIndicator extends StatefulWidget {
     this.iconTheme,
     this.progressIndicatorSize,
     this.progressIndicatorStrokeWidth,
-  })  : assert(
+  }) : assert(
             mainAxisAlignment == MainAxisAlignment.start ||
                 mainAxisAlignment == MainAxisAlignment.center ||
                 mainAxisAlignment == MainAxisAlignment.end,
-            'Only supports [MainAxisAlignment.center], [MainAxisAlignment.start] and [MainAxisAlignment.end].'),
-        super(key: key);
+            'Only supports [MainAxisAlignment.center], [MainAxisAlignment.start] and [MainAxisAlignment.end].');
 
   @override
   State<_ClassicIndicator> createState() => _ClassicIndicatorState();
@@ -355,8 +359,7 @@ class _ClassicIndicatorState extends State<_ClassicIndicator>
     return widget.textBuilder?.call(context, widget.state, _currentText) ??
         Text(
           _currentText,
-          // ignore: deprecated_member_use
-          style: widget.textStyle ?? Theme.of(context).textTheme.subtitle1,
+          style: widget.textStyle ?? Theme.of(context).textTheme.titleMedium,
         );
   }
 
@@ -368,8 +371,7 @@ class _ClassicIndicatorState extends State<_ClassicIndicator>
           padding: const EdgeInsets.only(top: 4),
           child: Text(
             _messageText,
-            // ignore: deprecated_member_use
-            style: widget.messageStyle ?? Theme.of(context).textTheme.caption,
+            style: widget.messageStyle ?? Theme.of(context).textTheme.bodySmall,
           ),
         );
   }
@@ -528,7 +530,8 @@ class _ClassicIndicatorState extends State<_ClassicIndicator>
       offset = _actualTriggerOffset;
     }
     return Container(
-      color: widget.backgroundColor,
+      color: widget.boxDecoration == null ? widget.backgroundColor : null,
+      decoration: widget.boxDecoration,
       width: _axis == Axis.vertical ? double.infinity : offset,
       height: _axis == Axis.horizontal ? double.infinity : offset,
       child: _axis == Axis.vertical
